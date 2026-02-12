@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine</title>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      /* Pink gradient background for romance */
+      background: linear-gradient(135deg, #FFC1CC, #FFDEE9);
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-top: 20vh;
+      color: #800020;
+      text-shadow: 1px 1px 2px #fff;
+    }
+    #buttonContainer {
+      margin-top: 2rem;
+      position: relative; /* for No button movement */
+      height: 100px;
+    }
+    button {
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 0.8rem 1.5rem;
+      margin: 0 1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    #yesBtn {
+      background-color: #FF758F;
+      color: white;
+    }
+    #yesBtn:hover {
+      transform: scale(1.1);
+    }
+    #noBtn {
+      background-color: #FF3B3F;
+      color: white;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+    }
+    #noBtn:hover {
+      transform: scale(1.1);
+    }
+    /* Confirmation message style */
+    #yesMessage {
+      display: none;
+      position: absolute;
+      top: 20vh; left: 50%;
+      transform: translateX(-50%);
+      color: #900;
+      animation: fadeIn 1s ease-out;
+    }
+    #yesMessage h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    /* Heart shape via CSS, and beating animation */
+    .heart {
+      width: 100px;
+      height: 100px;
+      background: #FF4D6D;
+      position: relative;
+      transform: rotate(-45deg);
+      margin: 0 auto;
+      animation: heartbeat 1s infinite;
+    }
+    .heart::before, .heart::after {
+      content: "";
+      width: 100px;
+      height: 100px;
+      background: #FF4D6D;
+      border-radius: 50%;
+      position: absolute;
+    }
+    .heart::before {
+      top: -50px; left: 0;
+    }
+    .heart::after {
+      left: 50px; top: 0;
+    }
+    @keyframes heartbeat {
+      0% { transform: scale(1) rotate(-45deg); }
+      50% { transform: scale(1.3) rotate(-45deg); }
+      100% { transform: scale(1) rotate(-45deg); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Will you be my Valentine?</h1>
+  <div id="buttonContainer">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <div id="yesMessage">
+    <div class="heart"></div>
+    <h2>Yay! You said yes! 💖</h2>
+    <p>You just made my day! 😊❤️</p>
+  </div>
+
+  <!-- Background music, loop enabled -->
+  <audio id="bgMusic" loop>
+    <!-- Replace with a real music file URL -->
+    <source src="romantic-valentine-loop.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const msg = document.getElementById('yesMessage');
+    const container = document.getElementById('buttonContainer');
+    const music = document.getElementById('bgMusic');
+
+    // Move "No" button randomly when hovered
+    noBtn.addEventListener('mouseenter', () => {
+      const maxX = container.clientWidth - noBtn.clientWidth;
+      const maxY = container.clientHeight - noBtn.clientHeight;
+      // Random position within container
+      const newX = Math.random() * maxX;
+      const newY = Math.random() * maxY;
+      noBtn.style.left = newX + 'px';
+      noBtn.style.top = newY + 'px';
+    });
+
+    // Yes button click: show message, play music
+    yesBtn.addEventListener('click', () => {
+      document.querySelector('h1').style.display = 'none';
+      container.style.display = 'none';
+      msg.style.display = 'block';
+      // Try to play music (requires user interaction)
+      music.play().catch(() => {
+        console.log("Music play failed (user gesture required).");
+      });
+    });
+
+    // (Optional) If noBtn is clicked, we can add a fallback message:
+    noBtn.addEventListener('click', () => {
+      alert("Oops, I didn't catch that – try saying YES! 🌟");
+    });
+  </script>
+</body>
+</html>
